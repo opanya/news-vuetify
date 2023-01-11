@@ -8,7 +8,18 @@
     </v-app-bar>
     <v-navigation-drawer v-model="navigation" absolute temporary>
     </v-navigation-drawer>
-    <v-main>
+    <v-main app>
+       <v-container class="grey lighten-5">
+      <v-row
+        no-gutters
+        style="height: 150px;"
+      >
+        <v-col
+          v-for="align in alignments"
+          :key="align"
+          :align-self="align"
+        >
+    
       <v-card>
         <v-img src="https://picsum.photos/500" class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
@@ -36,6 +47,9 @@
           </v-btn>
         </v-card-actions>
       </v-card>
+     </v-col> 
+    </v-row>
+    </v-container>
     </v-main>
   </v-app>
 </template>
