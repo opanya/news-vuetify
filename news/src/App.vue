@@ -15,19 +15,17 @@
         style="height: 150px;"
       >
         <v-col
-          v-for="align in alignments"
-          :key="align"
-          :align-self="align"
+          v-for="(item,i) in news" v-bind:key = "i"
         >
     
       <v-card>
-        <v-img src="https://picsum.photos/500" class="white--text align-end"
+        <v-img v-bind:src="item.urlToImage" class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
-          <v-card-title v-text="87464867"></v-card-title>
+          <v-card-title v-text=item.title></v-card-title>
         </v-img>
       <v-card-text>
         <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Necessitatibus, praesentium iusto aliquam ullam similique provident totam optio consectetur quis? Quibusdam tempora debitis veniam id sed recusandae beatae minus vitae quod.
+          {{ item.description }}
         </p>
       </v-card-text>
       
@@ -42,8 +40,8 @@
             <v-icon>mdi-bookmark</v-icon>
           </v-btn>
       
-          <v-btn icon>
-            <v-icon>mdi-share-variant</v-icon>
+          <v-btn plain color="deep-purple" :href = "item.url" target = "_blank">
+            <v-icon>mdi-share-variant</v-icon> Читать полностью
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -57,10 +55,26 @@
 <script>
 export default {
   name: 'App',
+
   components: {
   },
+
   data: () => ({
-    navigation: false
+    navigation: false,
+    news :[]
   }),
+  methods: {
+    getNews(){
+      this.axios({
+        method : 'GET',
+        url: "https://newsapi.org/v2/top-headlines?country=us&apiKey=d7f41a32c26b4bbfb596d58b1a54c766"
+      }).then((response) =>{
+        this.news = response.data.articles;
+      })
+    }
+  },
+  mounted() {
+    this.getNews();
+  },
 };
 </script>
