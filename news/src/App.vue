@@ -14,38 +14,16 @@
         no-gutters
         style="height: 150px;"
       >
-        <v-col
-          v-for="(item,i) in news" v-bind:key = "i"
-        >
-    
-      <v-card>
-        <v-img v-bind:src="item.urlToImage" class="white--text align-end"
-          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
-          <v-card-title v-text=item.title></v-card-title>
-        </v-img>
-      <v-card-text>
-        <p>
-          {{ item.description }}
-        </p>
-      </v-card-text>
-      
-        <v-card-actions>
-          <v-spacer></v-spacer>
-      
-          <v-btn icon>
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-      
-          <v-btn icon>
-            <v-icon>mdi-bookmark</v-icon>
-          </v-btn>
-      
-          <v-btn plain color="deep-purple" :href = "item.url" target = "_blank">
-            <v-icon>mdi-share-variant</v-icon> Читать полностью
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-     </v-col> 
+       
+        <NewsMain
+          v-for="(item,i) in news" v-bind:key="i"
+          v-bind:image = 'item.urlToImage'
+          v-bind:link = 'item.url'
+          v-bind:title = 'item.title'
+          >
+           {{ item.description }} 
+        </NewsMain>
+       
     </v-row>
     </v-container>
     </v-main>
@@ -53,10 +31,12 @@
 </template>
 
 <script>
+import NewsMain from "./components/NewsMain.vue"
 export default {
   name: 'App',
 
   components: {
+    NewsMain,
   },
 
   data: () => ({
@@ -67,7 +47,7 @@ export default {
     getNews(){
       this.axios({
         method : 'GET',
-        url: "https://newsapi.org/v2/top-headlines?country=us&apiKey=d7f41a32c26b4bbfb596d58b1a54c766"
+        url: "https://newsapi.org/v2/top-headlines?country=ru&apiKey=d7f41a32c26b4bbfb596d58b1a54c766"
       }).then((response) =>{
         this.news = response.data.articles;
       })
